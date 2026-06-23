@@ -102,6 +102,8 @@
 									<includes>
 										<include>com.minimarket.service.impl.UsuarioServiceImpl</include>
 										<include>com.minimarket.service.impl.VentaServiceImpl</include>
+										<include>com.minimarket.service.impl.CarritoServiceImpl</include>
+										<include>com.minimarket.service.impl.InventarioServiceImpl</include>
 									</includes>
 									<limits>
 										<limit>

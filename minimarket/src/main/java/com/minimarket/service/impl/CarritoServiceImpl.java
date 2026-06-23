@@ -26,6 +26,7 @@ public class CarritoServiceImpl implements CarritoService {
 
     @Override
     public Carrito save(Carrito carrito) {
+        validarCarrito(carrito);
         return carritoRepository.save(carrito);
     }
 
@@ -37,5 +38,23 @@ public class CarritoServiceImpl implements CarritoService {
     @Override
     public List<Carrito> findByUsuarioId(Long usuarioId) {
         return carritoRepository.findByUsuarioId(usuarioId);
+    }
+
+    private void validarCarrito(Carrito carrito) {
+        if (carrito == null) {
+            throw new IllegalArgumentException("El carrito es obligatorio");
+        }
+        if (carrito.getUsuario() == null || carrito.getUsuario().getId() == null) {
+            throw new IllegalArgumentException("El usuario asociado al carrito es obligatorio");
+        }
+        if (carrito.getProducto() == null || carrito.getProducto().getId() == null) {
+            throw new IllegalArgumentException("El producto asociado al carrito es obligatorio");
+        }
+        if (carrito.getCantidad() == null || carrito.getCantidad() <= 0) {
+            throw new IllegalArgumentException("La cantidad del carrito debe ser mayor a cero");
+        }
+        if (carrito.getProducto().getStock() == null || carrito.getProducto().getStock() < carrito.getCantidad()) {
+            throw new IllegalArgumentException("No hay stock suficiente para agregar el producto al carrito");
+        }
     }
 }
