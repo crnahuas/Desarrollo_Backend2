@@ -3,6 +3,7 @@ package com.minimarket.security.config;
 import com.minimarket.security.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,6 +26,15 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Deshabilita CSRF con la nueva sintaxis
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**").permitAll() // Permitir acceso público
+                        .requestMatchers(HttpMethod.POST, "/api/productos/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/productos/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/productos/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/inventario/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/inventario/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/inventario/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/ventas/**").hasAuthority("CAJERO")
+                        .requestMatchers(HttpMethod.PUT, "/api/usuarios/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated() // Requiere autenticación para el resto
                 )
                 .formLogin(form -> form

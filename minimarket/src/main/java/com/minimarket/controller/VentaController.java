@@ -28,6 +28,6 @@ public class VentaController {
 
     @PostMapping
     public Venta guardarVenta(@RequestBody Venta venta) {
-        return ventaService.save(venta);
+        return ventaService.registrarVenta(venta);
     }
 }
