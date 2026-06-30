@@ -1,6 +1,6 @@
 # Informe tecnico Semana 6 - Minimarket Plus
 
-## Resumen tecnico
+## Introducción
 
 Durante esta semana se tomo como base el backend de Minimarket Plus trabajado en semanas anteriores y se adapto para validar mecanismos de autenticacion y autorizacion mediante pruebas automatizadas. El avance previo permitia trabajar con entidades clave como Producto, Inventario, Venta, Usuario y Carrito. Sobre esa base se incorporaron reglas de acceso por rol para proteger operaciones sensibles: administracion de productos, movimientos de inventario, eliminacion/modificacion de usuarios y generacion de ventas.
 
