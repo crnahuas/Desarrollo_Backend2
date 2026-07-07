@@ -1,6 +1,6 @@
-# Minimarket Plus - Semana 6 Backend II
+# Minimarket Plus - Semana 7 Backend II
 
-Proyecto Spring Boot usado para la actividad sumativa de Semana 6: aplicacion de autenticacion, control de acceso por roles y validacion mediante pruebas unitarias con JUnit, Mockito, Spring Security Test y JaCoCo.
+Proyecto Spring Boot usado para la actividad formativa de Semana 7: documentacion de endpoints REST con OpenAPI y Swagger UI sobre el backend Minimarket Plus trabajado en semanas anteriores.
 
 ## Stack
 
@@ -11,10 +11,28 @@ Proyecto Spring Boot usado para la actividad sumativa de Semana 6: aplicacion de
 - Spring Data JPA
 - Spring Security
 - H2 Database
+- Springdoc OpenAPI
 - JUnit 5
 - Mockito
 - Spring Security Test
 - JaCoCo
+
+## Documentacion OpenAPI
+
+La documentacion interactiva se genera con `springdoc-openapi-starter-webmvc-ui`.
+
+Endpoints de documentacion:
+
+- Swagger UI: `http://localhost:8080/swagger-ui.html`
+- JSON OpenAPI: `http://localhost:8080/v3/api-docs`
+- JSON exportado para Postman: `docs/openapi-minimarket.json`
+
+Controladores documentados con mayor detalle:
+
+- `ProductoController`: `GET`, `POST`, `PUT` y `DELETE` sobre `/api/productos`.
+- `CarritoController`: `GET`, `POST`, `PUT` y `DELETE` sobre `/api/carrito`.
+
+El resto de controladores tambien aparece en el documento OpenAPI generado automaticamente por Springdoc.
 
 ## Roles configurados
 
@@ -23,6 +41,28 @@ Proyecto Spring Boot usado para la actividad sumativa de Semana 6: aplicacion de
 - `CLIENTE`: puede consultar recursos autenticados, pero no modificar productos, inventario, usuarios ni generar ventas.
 
 Las reglas estan en `src/main/java/com/minimarket/security/config/SecurityConfig.java`.
+
+Swagger UI y `/v3/api-docs` quedan publicos para poder revisar la documentacion sin iniciar sesion. Los endpoints funcionales del backend mantienen las reglas de seguridad configuradas.
+
+## Ejecucion local
+
+Desde la carpeta del proyecto:
+
+```bash
+./mvnw spring-boot:run
+```
+
+Luego abrir:
+
+```text
+http://localhost:8080/swagger-ui.html
+```
+
+Para exportar nuevamente el contrato OpenAPI:
+
+```bash
+curl -s http://localhost:8080/v3/api-docs -o docs/openapi-minimarket.json
+```
 
 ## Pruebas implementadas
 
@@ -39,7 +79,7 @@ Las reglas estan en `src/main/java/com/minimarket/security/config/SecurityConfig
 ./mvnw clean verify
 ```
 
-Resultado validado:
+Resultado validado despues de agregar OpenAPI:
 
 - `Tests run: 49, Failures: 0, Errors: 0, Skipped: 0`
 - `All coverage checks have been met.`

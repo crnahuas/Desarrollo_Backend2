@@ -1,0 +1,1289 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Minimarket Plus API",
+    "description": "Documentacion OpenAPI de los endpoints REST para productos, carrito, inventario, ventas, categorias y usuarios del backend Minimarket Plus.",
+    "license": {
+      "name": "Uso academico Duoc UC"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Entorno local de desarrollo"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Productos",
+      "description": "Operaciones para consultar y mantener productos del minimarket"
+    },
+    {
+      "name": "Carrito",
+      "description": "Operaciones para administrar productos agregados al carrito de compra"
+    }
+  ],
+  "paths": {
+    "/api/usuarios/{id}": {
+      "get": {
+        "tags": [
+          "usuario-controller"
+        ],
+        "operationId": "obtenerUsuarioPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "usuario-controller"
+        ],
+        "operationId": "actualizarUsuario",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Usuario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "usuario-controller"
+        ],
+        "operationId": "eliminarUsuario",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/productos/{id}": {
+      "get": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Obtener producto por ID",
+        "description": "Busca un producto especifico mediante su identificador.",
+        "operationId": "obtenerProductoPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador del producto",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Producto encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Producto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Producto no encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Actualizar producto",
+        "description": "Actualiza los datos de un producto existente.",
+        "operationId": "actualizarProducto",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador del producto",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "description": "Nuevos datos del producto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Producto"
+              },
+              "example": {
+                "nombre": "Arroz premium",
+                "precio": 1490,
+                "stock": 60,
+                "categoria": {
+                  "id": 1
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Producto actualizado correctamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Producto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Producto no encontrado"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Eliminar producto",
+        "description": "Elimina un producto registrado cuando existe en el sistema.",
+        "operationId": "eliminarProducto",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador del producto",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Producto eliminado correctamente"
+          },
+          "404": {
+            "description": "Producto no encontrado"
+          }
+        }
+      }
+    },
+    "/api/inventario/{id}": {
+      "get": {
+        "tags": [
+          "inventario-controller"
+        ],
+        "operationId": "obtenerMovimientoPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Inventario"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "inventario-controller"
+        ],
+        "operationId": "actualizarMovimiento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Inventario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Inventario"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "inventario-controller"
+        ],
+        "operationId": "eliminarMovimiento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/detalle-ventas/{id}": {
+      "get": {
+        "tags": [
+          "detalle-venta-controller"
+        ],
+        "operationId": "obtenerDetalleVentaPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetalleVenta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "detalle-venta-controller"
+        ],
+        "operationId": "actualizarDetalleVenta",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleVenta"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetalleVenta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "detalle-venta-controller"
+        ],
+        "operationId": "eliminarDetalleVenta",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/categorias/{id}": {
+      "get": {
+        "tags": [
+          "categoria-controller"
+        ],
+        "operationId": "obtenerCategoriaPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Categoria"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "categoria-controller"
+        ],
+        "operationId": "actualizarCategoria",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Categoria"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Categoria"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "categoria-controller"
+        ],
+        "operationId": "eliminarCategoria",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/carrito/{id}": {
+      "get": {
+        "tags": [
+          "Carrito"
+        ],
+        "summary": "Obtener item del carrito por ID",
+        "description": "Busca un registro del carrito mediante su identificador.",
+        "operationId": "obtenerCarritoPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador del item del carrito",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Item del carrito encontrado",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Carrito"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Item del carrito no encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Carrito"
+        ],
+        "summary": "Actualizar item del carrito",
+        "description": "Modifica la cantidad o referencias asociadas a un item del carrito.",
+        "operationId": "actualizarCarrito",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador del item del carrito",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "description": "Nuevos datos del item del carrito",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Carrito"
+              },
+              "example": {
+                "usuario": {
+                  "id": 1
+                },
+                "producto": {
+                  "id": 1
+                },
+                "cantidad": 3
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Item del carrito actualizado correctamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Carrito"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Item del carrito no encontrado"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Carrito"
+        ],
+        "summary": "Eliminar producto del carrito",
+        "description": "Elimina un item del carrito cuando existe.",
+        "operationId": "eliminarProductoDelCarrito",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador del item del carrito",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Item del carrito eliminado correctamente"
+          },
+          "404": {
+            "description": "Item del carrito no encontrado"
+          }
+        }
+      }
+    },
+    "/api/ventas": {
+      "get": {
+        "tags": [
+          "venta-controller"
+        ],
+        "operationId": "listarVentas",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Venta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "venta-controller"
+        ],
+        "operationId": "guardarVenta",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Venta"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Venta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/usuarios": {
+      "get": {
+        "tags": [
+          "usuario-controller"
+        ],
+        "operationId": "listarUsuarios",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Usuario"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "usuario-controller"
+        ],
+        "operationId": "guardarUsuario",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Usuario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/productos": {
+      "get": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Listar productos",
+        "description": "Obtiene todos los productos registrados con su precio, stock y categoria asociada.",
+        "operationId": "listarProductos",
+        "responses": {
+          "200": {
+            "description": "Listado de productos obtenido correctamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Producto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Productos"
+        ],
+        "summary": "Crear producto",
+        "description": "Registra un nuevo producto asociado a una categoria existente.",
+        "operationId": "guardarProducto",
+        "requestBody": {
+          "description": "Datos del producto a crear",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Producto"
+              },
+              "example": {
+                "nombre": "Arroz grano largo",
+                "precio": 1290,
+                "stock": 50,
+                "categoria": {
+                  "id": 1
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Producto creado correctamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Producto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/inventario": {
+      "get": {
+        "tags": [
+          "inventario-controller"
+        ],
+        "operationId": "listarMovimientosDeInventario",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Inventario"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "inventario-controller"
+        ],
+        "operationId": "registrarMovimiento",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Inventario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Inventario"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/detalle-ventas": {
+      "get": {
+        "tags": [
+          "detalle-venta-controller"
+        ],
+        "operationId": "listarDetalleVentas",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DetalleVenta"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "detalle-venta-controller"
+        ],
+        "operationId": "guardarDetalleVenta",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleVenta"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetalleVenta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categorias": {
+      "get": {
+        "tags": [
+          "categoria-controller"
+        ],
+        "operationId": "listarCategorias",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Categoria"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "categoria-controller"
+        ],
+        "operationId": "guardarCategoria",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Categoria"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Categoria"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/carrito": {
+      "get": {
+        "tags": [
+          "Carrito"
+        ],
+        "summary": "Listar carrito",
+        "description": "Obtiene todos los registros del carrito con usuario, producto y cantidad.",
+        "operationId": "listarCarrito",
+        "responses": {
+          "200": {
+            "description": "Listado del carrito obtenido correctamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Carrito"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Carrito"
+        ],
+        "summary": "Agregar producto al carrito",
+        "description": "Registra un producto y su cantidad dentro del carrito de un usuario.",
+        "operationId": "agregarProductoAlCarrito",
+        "requestBody": {
+          "description": "Datos del usuario, producto y cantidad a agregar",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Carrito"
+              },
+              "example": {
+                "usuario": {
+                  "id": 1
+                },
+                "producto": {
+                  "id": 1
+                },
+                "cantidad": 2
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Producto agregado al carrito correctamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Carrito"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/hola": {
+      "get": {
+        "tags": [
+          "hola-mundo-controller"
+        ],
+        "operationId": "holaMundo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ventas/{id}": {
+      "get": {
+        "tags": [
+          "venta-controller"
+        ],
+        "operationId": "obtenerVentaPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Venta"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Rol": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "usuarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Usuario"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "Usuario": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "apellido": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "direccion": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Rol"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "Categoria": {
+        "type": "object",
+        "description": "Categoria usada para clasificar productos",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identificador unico de la categoria",
+            "example": 1,
+            "readOnly": true
+          },
+          "nombre": {
+            "type": "string",
+            "description": "Nombre de la categoria",
+            "example": "Abarrotes"
+          },
+          "productos": {
+            "type": "array",
+            "description": "Productos asociados a la categoria",
+            "items": {
+              "$ref": "#/components/schemas/Producto"
+            },
+            "readOnly": true
+          }
+        }
+      },
+      "Producto": {
+        "type": "object",
+        "description": "Producto disponible para venta en el minimarket",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identificador unico del producto",
+            "example": 1,
+            "readOnly": true
+          },
+          "nombre": {
+            "type": "string",
+            "description": "Nombre comercial del producto",
+            "example": "Arroz grano largo"
+          },
+          "precio": {
+            "type": "number",
+            "format": "double",
+            "description": "Precio unitario del producto",
+            "example": 1290
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Cantidad disponible en stock",
+            "example": 50
+          },
+          "categoria": {
+            "$ref": "#/components/schemas/Categoria",
+            "description": "Categoria a la que pertenece el producto"
+          }
+        }
+      },
+      "Inventario": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "producto": {
+            "$ref": "#/components/schemas/Producto"
+          },
+          "cantidad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tipoMovimiento": {
+            "type": "string"
+          },
+          "fechaMovimiento": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "DetalleVenta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "venta": {
+            "$ref": "#/components/schemas/Venta"
+          },
+          "producto": {
+            "$ref": "#/components/schemas/Producto"
+          },
+          "cantidad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "precio": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Venta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "usuario": {
+            "$ref": "#/components/schemas/Usuario"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "detalles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DetalleVenta"
+            }
+          }
+        }
+      },
+      "Carrito": {
+        "type": "object",
+        "description": "Registro de un producto agregado al carrito de un usuario",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identificador unico del item del carrito",
+            "example": 1,
+            "readOnly": true
+          },
+          "usuario": {
+            "$ref": "#/components/schemas/Usuario",
+            "description": "Usuario propietario del carrito"
+          },
+          "producto": {
+            "$ref": "#/components/schemas/Producto",
+            "description": "Producto agregado al carrito"
+          },
+          "cantidad": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Cantidad solicitada del producto",
+            "example": 2
+          }
+        }
+      }
+    }
+  }
+}

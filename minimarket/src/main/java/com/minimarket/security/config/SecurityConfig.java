@@ -26,6 +26,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Deshabilita CSRF con la nueva sintaxis
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**").permitAll() // Permitir acceso público
+                        .requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/productos/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/productos/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/productos/**").hasAuthority("ADMIN")
